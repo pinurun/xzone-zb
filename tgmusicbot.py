@@ -143,11 +143,7 @@ async def _reply_and_delete_later(message: Message, text: str, delay: int):
     await asyncio.sleep(delay)
     await reply.delete()
 
-def _get_file_extension_from_url(url):
-    url_path = urlparse(url).path
-    basename = os.path.basename(url_path)
-    return basename.split(".")[-1]
-
+    
 async def _upload_audio(message: Message, info_dict, audio_file):
     basename = audio_file.rsplit(".", 1)[-2]
     if info_dict['ext'] == 'webm':
@@ -168,15 +164,20 @@ async def _upload_audio(message: Message, info_dict, audio_file):
     caption = f"<b><a href=\"{webpage_url}\">{title}</a></b>"
     duration = int(float(info_dict['duration']))
     performer = info_dict['uploader']
-    await message.reply_audio(audio_file,
-                              caption=caption,
+    await message.reply_audio(caption=caption,
                               duration=duration,
                               performer=performer,
                               title=title,
+                              audio_file,
                               parse_mode='HTML',
                               thumb=squarethumb_file)
     for f in (audio_file, thumbnail_file, squarethumb_file):
         os.remove(f)
+        
+def _get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
 
 def make_squarethumb(thumbnail, output):
     """Convert thumbnail to square thumbnail"""
@@ -202,7 +203,7 @@ def _crop_to_square(img):
 
 
 app.start()
-print('>>> BOT STARTED')
+print('>>> YTCBOT STARTED')
 idle()
 app.stop()
-print('\n>>> BOT STOPPED')
+print('\n>>> TYTCBOT STOPPED')
