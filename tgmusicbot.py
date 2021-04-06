@@ -99,21 +99,21 @@ async def _fetch_and_send_music(message: Message):
         # send a link as a reply to bypass Music category check
         if not message.reply_to_message \
                 and _youtube_video_not_music(info_dict):
-            inform = ("This video is not under Music category, "
-                      "you can resend the link as a reply "
-                      "to force download it")
+            inform = ("video ini tidak termasuk dalam kategori Musik, "
+                      "Anda dapat mengirim ulang tautan sebagai balasan "
+                      "untuk memaksa mengunduhnya")
             await _reply_and_delete_later(message, inform,
                                           DELAY_DELETE_INFORM)
             return
         if info_dict['duration'] > MUSIC_MAX_LENGTH:
             readable_max_length = str(timedelta(seconds=MUSIC_MAX_LENGTH))
-            inform = ("This won't be downloaded because its audio length is "
-                      "longer than the limit `{}` which is set by the bot"
+            inform = ("Ini tidak akan diunduh karena panjang audionya "
+                      "lebih lama dari batasnya `{}` yang diatur oleh bot"
                       .format(readable_max_length))
             await _reply_and_delete_later(message, inform,
                                           DELAY_DELETE_INFORM)
             return
-        d_status = await message.reply_text("Downloading...", quote=True,
+        d_status = await message.reply_text("Mendownload...", quote=True,
                                             disable_notification=True)
         ydl.process_info(info_dict)
         audio_file = ydl.prepare_filename(info_dict)
@@ -143,6 +143,10 @@ async def _reply_and_delete_later(message: Message, text: str, delay: int):
     await asyncio.sleep(delay)
     await reply.delete()
 
+def _get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
 
 async def _upload_audio(message: Message, info_dict, audio_file):
     basename = audio_file.rsplit(".", 1)[-2]
@@ -173,13 +177,6 @@ async def _upload_audio(message: Message, info_dict, audio_file):
                               thumb=squarethumb_file)
     for f in (audio_file, thumbnail_file, squarethumb_file):
         os.remove(f)
-
-
-def _get_file_extension_from_url(url):
-    url_path = urlparse(url).path
-    basename = os.path.basename(url_path)
-    return basename.split(".")[-1]
-
 
 def make_squarethumb(thumbnail, output):
     """Convert thumbnail to square thumbnail"""
