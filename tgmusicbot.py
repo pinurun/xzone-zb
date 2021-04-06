@@ -164,11 +164,11 @@ async def _upload_audio(message: Message, info_dict, audio_file):
     caption = f"<b><a href=\"{webpage_url}\">{title}</a></b>"
     duration = int(float(info_dict['duration']))
     performer = info_dict['uploader']
-    await message.reply_audio(audio_file,
+    await message.reply_audio(title=title,
+                              audio_file,
                               caption=caption,
                               duration=duration,
                               performer=performer,
-                              title=title,
                               parse_mode='HTML',
                               thumb=squarethumb_file)
     for f in (audio_file, thumbnail_file, squarethumb_file):
