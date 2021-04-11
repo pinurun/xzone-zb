@@ -210,7 +210,6 @@ def _crop_to_square(img):
     return img.crop((left, top, right, bottom))
 
 
-start_handler = CommandHandler('start', start)
 # - start
 
 
