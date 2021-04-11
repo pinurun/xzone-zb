@@ -74,7 +74,7 @@ main_filter = (
     & ~filters.edited
 )
 
-@app.on_message(main_filter & filters.regex("^/start$"))
+@app.on_message(filters.text & filters.regex("^/start$"))
 async def reply_message(_, message):
     pinurun = ("Hello! I\'m LuminousAssitant\n")
     await message.reply_text(message, pinurun)
