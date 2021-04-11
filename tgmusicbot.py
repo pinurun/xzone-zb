@@ -27,7 +27,7 @@ from pyrogram.types import Message
 from youtube_dl import YoutubeDL
 from PIL import Image
 import ffmpeg
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+import InlineKeyboardButton, InlineKeyboardMarkup
 
 MUSIC_MAX_LENGTH = 10800
 DELAY_DELETE_INFORM = 10
