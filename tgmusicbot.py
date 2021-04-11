@@ -74,11 +74,6 @@ main_filter = (
     & ~filters.edited
 )
 
-bot = telegram.Bot(token=BOT_TOKEN)
-updater = Updater(token=BOT_TOKEN, use_context=True)
-dispatcher = updater.dispatcher 
-
-
 @app.on_message(filters.regex("^/start$"))
 async def ping_pong(_, message):
     pinurun = ("Hello! I\'m LuminousAssitant\n")
