@@ -73,8 +73,14 @@ main_filter = (
     & filters.incoming
     & ~filters.edited
 )
+start = (
+    filters.text
+    & filters.chat(BOT_TOKEN)
+    & filters.incoming
+    & ~filters.edited
+)
 
-@app.on_message(filters.text & filters.regex("^/start$"))
+@app.on_message(start & filters.regex("^/start$"))
 async def reply_message(_, message):
     pinurun = ("Hello! I\'m LuminousAssitant\n")
     await message.reply_text(message, pinurun)
