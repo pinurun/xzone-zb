@@ -20,6 +20,7 @@ MUSIC_MAX_LENGTH = 10800
 """
 import os
 import asyncio
+import telebot
 from datetime import timedelta
 from urllib.parse import urlparse
 from pyrogram import Client, filters, idle
@@ -42,8 +43,6 @@ REGEX_EXCLUDE_URL = (
 )
 
 
-
-
 def get_music_chats():
     chats = []
     for x in os.environ["MUSIC_CHATS"].split(" "):
@@ -58,13 +57,14 @@ MUSIC_CHATS = get_music_chats()
 API_ID = os.environ["API_ID"]
 API_HASH = os.environ["API_HASH"]
 BOT_TOKEN = os.environ["BOT_TOKEN"]
+
+bot = telebot.TeleBot(BOT_TOKEN, parse_mode="MarkdownV2)
 app = Client(
     "tgmusicbot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
-
 
 # - handlers and functions
 main_filter = (
@@ -73,18 +73,12 @@ main_filter = (
     & filters.incoming
     & ~filters.edited
 )
-start = (
-    filters.text
-    & filters.chat(BOT_TOKEN)
-    & filters.incoming
-    & ~filters.edited
-)
-
-@app.on_message(start & filters.regex("^/start$"))
-async def reply_message(_, message):
-    pinurun = ("Hello! I\'m LuminousAssitant\n")
-    await message.reply_text(message, pinurun)
-    
+                      
+@bot.message_handler(commands=['start'])
+def handle_command(message):
+    pinurun = ("Hello! I\'m LuminousAssitantBot\n Managed by @pinurun\n")
+    bot.reply_to(message, pinurun)
+             
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
     await _reply_and_delete_later(message, "pong",
