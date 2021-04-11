@@ -18,6 +18,7 @@ MUSIC_INFORM_AVAILABILITY = (
 )
 MUSIC_MAX_LENGTH = 10800
 """
+
 import os
 import asyncio
 from datetime import timedelta
@@ -73,12 +74,6 @@ main_filter = (
     & ~filters.edited
 )
                       
-@app.on_message(main_filter & filters.regex("^/ping$"))
-async def start_handler(_, message):
-    pinurun = ("Hello! I\'m LuminousAssitantBot\n Managed by @pinurun\n")
-    if message.chat.type == "private":
-     await message.reply_text(message, pinurun)
-             
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
     await _reply_and_delete_later(message, "pong",
@@ -212,4 +207,4 @@ app.start()
 print('>>> YTCBOT STARTED')
 idle()
 app.stop()
-print('\n>>> TYTCBOT STOPPED')
+print('\n>>> YTCBOT STOPPED')
