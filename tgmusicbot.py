@@ -58,7 +58,7 @@ API_ID = os.environ["API_ID"]
 API_HASH = os.environ["API_HASH"]
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
-bot = telebot.TeleBot(BOT_TOKEN, parse_mode="MarkdownV2)
+bot = telebot.TeleBot(BOT_TOKEN, parse_mode="MarkdownV2")
 app = Client(
     "tgmusicbot",
     api_id=API_ID,
