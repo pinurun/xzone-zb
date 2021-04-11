@@ -18,7 +18,6 @@ MUSIC_INFORM_AVAILABILITY = (
 )
 MUSIC_MAX_LENGTH = 10800
 """
-import telebot
 import os
 import asyncio
 from datetime import timedelta
@@ -65,7 +64,6 @@ app = Client(
     bot_token=BOT_TOKEN
 )
 
-bot = telebot.TeleBot(bot_token, parse_mode="MarkdownV2")
 
 # - handlers and functions
 main_filter = (
@@ -75,10 +73,11 @@ main_filter = (
     & ~filters.edited
 )
                       
-@bot.message_handler(commands=['start'])
-def handle_command(message):
+@app.on_message(main_filter & filters.regex("^/ping$"))
+async def start_handler(_, message):
     pinurun = ("Hello! I\'m LuminousAssitantBot\n Managed by @pinurun\n")
-    bot.reply_to(message, pinurun)
+    if message.chat.type == "private":
+     await message.reply_text(message, pinurun)
              
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
