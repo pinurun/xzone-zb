@@ -27,7 +27,6 @@ from pyrogram.types import Message
 from youtube_dl import YoutubeDL
 from PIL import Image
 import ffmpeg
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 MUSIC_MAX_LENGTH = 10800
 DELAY_DELETE_INFORM = 10
@@ -80,24 +79,11 @@ updater = Updater(token=BOT_TOKEN, use_context=True)
 dispatcher = updater.dispatcher 
 
 
-def start(update: telegram.Update, context: telegram.ext.CallbackContext):
+@app.on_message(filters.regex("^/start$"))
+async def ping_pong(_, message):
     pinurun = ("Hello! I\'m LuminousAssitant\n")
-   context.bot.send_message(chat_id=update.effective_chat.id, pinurun, reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "ZONA BATAK", url="https://t.me/zonabatak"
-                    ),
-                    InlineKeyboardButton(
-                        "GRUP GAJELAS", url="https://t.me/zonabatak"
-                    )
-                ]
-            ]
-        )
-     )
-    if update.effective_user not in active_users:
-        active_users.append(update.effective_user)
-        
+    await message.reply_text(message,pinurun)
+    
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
     await _reply_and_delete_later(message, "pong",
