@@ -27,6 +27,7 @@ from pyrogram.types import Message
 from youtube_dl import YoutubeDL
 from PIL import Image
 import ffmpeg
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 MUSIC_MAX_LENGTH = 10800
 DELAY_DELETE_INFORM = 10
@@ -40,6 +41,8 @@ REGEX_SITES = (
 REGEX_EXCLUDE_URL = (
     r"\/channel\/|\/playlist\?list=|&list=|\/sets\/"
 )
+
+
 
 
 def get_music_chats():
@@ -73,6 +76,23 @@ main_filter = (
 )
 
 
+@app.on_message(filters.regex("^/start$"))
+async def start_handler(_, message):
+    pinurun = ("Hello! I\'m LuminousAssitant\n")
+    await message.reply_text(message, pinurun, reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "ZONA BATAK", url="https://t.me/zonabatak"
+                    ),
+                    InlineKeyboardButton(
+                        "GRUP GAJELAS", url="https://t.me/zonabatak"
+                    )
+                ]
+            ]
+        )
+     )
+    
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
     await _reply_and_delete_later(message, "pong",
