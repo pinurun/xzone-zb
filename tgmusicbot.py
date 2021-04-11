@@ -209,7 +209,6 @@ def _crop_to_square(img):
 
 
 app.start()
-bot.polling()
 print('>>> YTCBOT STARTED')
 idle()
 app.stop()
