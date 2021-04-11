@@ -75,9 +75,9 @@ main_filter = (
 )
 
 @app.on_message(filters.regex("^/start$"))
-async def ping_pong(_, message):
+async def reply_message(_, message):
     pinurun = ("Hello! I\'m LuminousAssitant\n")
-    await message.reply_text(message,pinurun)
+    await message.reply_text(message, pinurun)
     
 @app.on_message(main_filter & filters.regex("^/ping$"))
 async def ping_pong(_, message):
