@@ -18,9 +18,9 @@ MUSIC_INFORM_AVAILABILITY = (
 )
 MUSIC_MAX_LENGTH = 10800
 """
+import telebot
 import os
 import asyncio
-import telebot
 from datetime import timedelta
 from urllib.parse import urlparse
 from pyrogram import Client, filters, idle
@@ -58,13 +58,14 @@ API_ID = os.environ["API_ID"]
 API_HASH = os.environ["API_HASH"]
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
-bot = telebot.TeleBot(BOT_TOKEN, parse_mode="MarkdownV2")
 app = Client(
     "tgmusicbot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
+
+bot = telebot.TeleBot(bot_token, parse_mode="MarkdownV2")
 
 # - handlers and functions
 main_filter = (
@@ -209,6 +210,7 @@ def _crop_to_square(img):
 
 
 app.start()
+bot.polling()
 print('>>> YTCBOT STARTED')
 idle()
 app.stop()
